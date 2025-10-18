@@ -1,18 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "test5/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    },
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
+  "functions": {
+    "backend/server.js": {
+      "runtime": "nodejs:20"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/(.*)",
@@ -20,7 +12,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/test5/dist/$1"
+      "dest": "/$1"
     }
   ]
 }
