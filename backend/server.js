@@ -27,5 +27,13 @@ app.get('/', (req, res) => {
   res.json({ message: '555 Results Backend API' });
 });
 
-// Export the app for Vercel serverless deployment
+// For Vercel serverless deployment
 module.exports = app;
+
+// For local development
+if (require.main === module) {
+  const port = process.env.PORT || 5000;
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
