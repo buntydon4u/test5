@@ -1,8 +1,5 @@
 {
   "name": "test555react",
   "private": true,
-  "workspaces": [
-    "api",
-    "test5"
-  ]
+  "workspaces": ["api", "test5"]
 }
