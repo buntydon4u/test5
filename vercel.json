@@ -17,10 +17,6 @@
     {
       "src": "/api/(.*)",
       "dest": "/api/server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/test5/dist/$1"
     }
   ]
 }
