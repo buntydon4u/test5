@@ -22,10 +22,5 @@
       "src": "/(.*)",
       "dest": "/test5/$1"
     }
-  ],
-  "functions": {
-    "backend/server.js": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  ]
 }
