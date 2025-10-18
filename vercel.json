@@ -22,6 +22,5 @@
       "src": "/(.*)",
       "dest": "/test5/$1"
     }
-  ],
-  "outputDirectory": "test5/dist"
+  ]
 }
