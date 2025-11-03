@@ -29,8 +29,8 @@ export default async function handler(req, res) {
     const { data: games, error: gamesError } = await supabase
       .from('games')
       .select('*')
-      .order('nick_name', { ascending: true })
-      .order('created_at', { ascending: false });
+      .order('nickName', { ascending: true })
+      .order('createdAt', { ascending: false });
 
     if (gamesError) {
       throw new Error('Error fetching games');

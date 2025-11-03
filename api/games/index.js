@@ -25,16 +25,16 @@ export default async function handler(req, res) {
       const { data: primeGames, error: primeError } = await supabase
         .from('games')
         .select('*')
-        .eq('game_type', 'prime')
-        .eq('is_active', true)
-        .order('start_time', { ascending: true });
+        .eq('gameType', 'prime')
+        .eq('isActive', true)
+        .order('startTime', { ascending: true });
 
       const { data: localGames, error: localError } = await supabase
         .from('games')
         .select('*')
-        .eq('game_type', 'local')
-        .eq('is_active', true)
-        .order('start_time', { ascending: true });
+        .eq('gameType', 'local')
+        .eq('isActive', true)
+        .order('startTime', { ascending: true });
 
       if (primeError || localError) {
         throw new Error('Error fetching games');
