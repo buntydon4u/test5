@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
@@ -12,11 +11,6 @@ app.use(express.json());
 
 // Serve static files from the React app build directory
 app.use(express.static(path.join(__dirname, 'dist')));
-
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/555results')
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
 const authRouter = require('./routes/auth');

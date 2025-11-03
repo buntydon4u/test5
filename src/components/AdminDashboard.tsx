@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface Game {
-  _id: string;
+  id: string;
   nickName: string;
   startTime: string;
   endTime: string;
@@ -117,7 +117,7 @@ function AdminDashboard() {
         {/* Game Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {games.map(game => (
-            <div key={game._id} className="bg-gradient-to-br from-amber-950/70 via-neutral-900 to-amber-950/70 rounded-lg p-6 border-2 border-yellow-600/40">
+            <div key={game.id} className="bg-gradient-to-br from-amber-950/70 via-neutral-900 to-amber-950/70 rounded-lg p-6 border-2 border-yellow-600/40">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-yellow-400">{game.nickName}</h3>
@@ -155,13 +155,13 @@ function AdminDashboard() {
 
               <div className="flex gap-2">
                 <button
-                  onClick={() => handlePublishResult(game._id)}
+                  onClick={() => handlePublishResult(game.id)}
                   className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-3 py-2 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 text-sm"
                 >
                   Publish Result
                 </button>
                 <button
-                  onClick={() => handleEditGame(game._id)}
+                  onClick={() => handleEditGame(game.id)}
                   className="flex-1 bg-gradient-to-r from-yellow-600 to-amber-600 text-white px-3 py-2 rounded-lg hover:from-yellow-700 hover:to-amber-700 transition-all duration-300 text-sm"
                 >
                   Edit
@@ -189,7 +189,7 @@ function AdminDashboard() {
                 </thead>
                 <tbody>
                   {games.map(game => (
-                    <tr key={game._id} className="border-b border-yellow-600/20 hover:bg-amber-950/20">
+                    <tr key={game.id} className="border-b border-yellow-600/20 hover:bg-amber-950/20">
                       <td className="py-3 px-4 font-semibold text-white">{game.nickName}</td>
                       <td className="py-3 px-4 text-gray-400">{game.gameType.toUpperCase()}</td>
                       <td className="py-3 px-4 text-gray-400">
@@ -221,7 +221,7 @@ function AdminDashboard() {
                       </td>
                       <td className="py-3 px-4">
                         <button
-                          onClick={() => handleEditGame(game._id)}
+                          onClick={() => handleEditGame(game.id)}
                           className="bg-gradient-to-r from-yellow-600 to-amber-600 text-white px-3 py-1 rounded text-xs hover:from-yellow-700 hover:to-amber-700 transition-all duration-300"
                         >
                           Edit

@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getAdminGames, publishResult } from '../utils/api';
 
 interface Game {
-  _id: string;
-  nickName: string;
-  startTime: string;
-  endTime: string;
-  gameType: string;
+  id: string;
+  nick_name: string;
+  start_time: string;
+  end_time: string;
+  game_type: string;
 }
 
 function GameResult() {
@@ -29,22 +30,9 @@ function GameResult() {
 
   const fetchGame = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/api/games/admin`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 401) {
-        localStorage.removeItem('token');
-        navigate('/admin/login');
-        return;
-      }
-
-      const games = await response.json();
-      const foundGame = games.find((g: Game) => g._id === gameId);
-      setGame(foundGame);
+      const games = await getAdminGames();
+      const foundGame = games.find((g: Game) => g.id === gameId);
+      setGame(foundGame || null);
     } catch (err) {
       setError('Failed to fetch game details');
     }
@@ -56,31 +44,11 @@ function GameResult() {
     setError('');
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/results/publish', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          gameId,
-          left: formData.left,
-          center: formData.center,
-          right: formData.right,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert('Result published successfully!');
-        navigate('/admin/dashboard');
-      } else {
-        setError(data.error || 'Failed to publish result');
-      }
-    } catch (err) {
-      setError('Network error. Please try again.');
+      await publishResult(gameId!, formData.left, formData.center, formData.right);
+      alert('Result published successfully!');
+      navigate('/admin/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Failed to publish result');
     } finally {
       setLoading(false);
     }
@@ -120,12 +88,12 @@ function GameResult() {
           </div>
 
           <div className="mb-6 p-4 bg-neutral-900/50 rounded-lg">
-            <h2 className="text-xl font-semibold text-white mb-2">{game.nickName}</h2>
+            <h2 className="text-xl font-semibold text-white mb-2">{game.nick_name}</h2>
             <p className="text-gray-400 text-sm">
-              {new Date(game.startTime).toLocaleString()} - {new Date(game.endTime).toLocaleString()}
+              {new Date(game.start_time).toLocaleString()} - {new Date(game.end_time).toLocaleString()}
             </p>
-            <span className={`inline-block mt-2 text-xs px-2 py-1 rounded ${game.gameType === 'prime' ? 'bg-blue-600' : 'bg-green-600'}`}>
-              {game.gameType.toUpperCase()}
+            <span className={`inline-block mt-2 text-xs px-2 py-1 rounded ${game.game_type === 'prime' ? 'bg-blue-600' : 'bg-green-600'}`}>
+              {game.game_type.toUpperCase()}
             </span>
           </div>
 

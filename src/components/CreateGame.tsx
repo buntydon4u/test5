@@ -25,7 +25,7 @@ function CreateGame() {
   const fetchGame = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/games/admin`, {
+      const response = await fetch(`/api/games/${gameId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -37,14 +37,13 @@ function CreateGame() {
         return;
       }
 
-      const games = await response.json();
-      const game = games.find((g: any) => g._id === gameId);
+      const game = await response.json();
 
       if (game) {
         setFormData({
           nickName: game.nickName,
           startTime: new Date(game.startTime).toISOString().slice(0, 16),
-          endTime: new Date(game.endTime).toISOString().slice(0, 16),
+          endTime: new Date(game.end_time).toISOString().slice(0, 16),
           gameType: game.gameType,
           isActive: game.isActive
         });
@@ -64,13 +63,18 @@ function CreateGame() {
       const url = isEditing ? `/api/games/${gameId}` : '/api/games';
       const method = isEditing ? 'PUT' : 'POST';
 
+      const payload = {
+        ...formData,
+        endTime: formData.endTime
+      };
+
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();

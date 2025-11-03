@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { getResults } from '../utils/api';
 
 ChartJS.register(
   CategoryScale,
@@ -37,8 +38,7 @@ function GameChart({ gameName, onClose }: GameChartProps) {
   const fetchResults = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/results');
-      const data = await response.json();
+      const data = await getResults();
       setResults(data.filter((r: any) => r.name === gameName));
     } catch (error) {
       console.error('Error fetching results:', error);
@@ -49,7 +49,7 @@ function GameChart({ gameName, onClose }: GameChartProps) {
 
   // Filter results for selected month and year
   const filteredResults = results.filter(result => {
-    const date = new Date(result.createdAt);
+    const date = new Date(result.created_at);
     return date.getMonth() === selectedMonth && date.getFullYear() === selectedYear;
   });
 
@@ -60,7 +60,7 @@ function GameChart({ gameName, onClose }: GameChartProps) {
   // Get results by day
   const resultsByDay = daysArray.map(day => {
     const dayResults = filteredResults.filter(result => {
-      const date = new Date(result.createdAt);
+      const date = new Date(result.created_at);
       return date.getDate() === day;
     });
     return dayResults.length > 0 ? dayResults[0] : null;
